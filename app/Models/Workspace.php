@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property null|CarbonInterface $updated_at
  * @property User $owner
  * @property Collection<Membership> $members
+ * @property Collection<Channel> $channels
  */
 #[ObservedBy(classes: WorkspaceObserver::class)]
 final class Workspace extends Model
@@ -53,6 +54,15 @@ final class Workspace extends Model
     {
         return $this->hasMany(
             related: Membership::class,
+            foreignKey: 'workspace_id',
+        );
+    }
+
+    /** @return HasMany<Channel> */
+    public function channels(): HasMany
+    {
+        return $this->hasMany(
+            related: Channel::class,
             foreignKey: 'workspace_id',
         );
     }

@@ -8,29 +8,20 @@ use App\Enums\Identity\Role;
 use App\Jobs\Workspaces\CreateDefaultChannels;
 use App\Jobs\Workspaces\CreateMembership;
 use App\Models\Workspace;
+use App\Services\AuthenticatedUserService;
 use Illuminate\Contracts\Bus\Dispatcher;
 
 final readonly class WorkspaceObserver
 {
     public function __construct(
-        private Dispatcher $bus,
+        private AuthenticatedUserService $service,
     ) {
     }
 
     public function created(Workspace $workspace): void
     {
-        $this->bus->dispatch(
-            command: new CreateMembership(
-                workspace: $workspace->id,
-                user: $workspace->user_id,
-                role: Role::Admin,
-            ),
-        );
-
-        $this->bus->dispatch(
-            command: new CreateDefaultChannels(
-                workspace: $workspace,
-            ),
+        $this->service->completeOnboarding(
+            workspace: $workspace,
         );
     }
 }

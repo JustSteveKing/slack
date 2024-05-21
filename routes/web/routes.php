@@ -20,5 +20,8 @@ Route::as('pages:')->group(static function (): void {
 
     Route::middleware(['auth','onboarding'])->group(static function (): void {
         Route::view('/', 'pages.index')->name('home');
+        Route::prefix('channels')->as('channels:')->group(base_path(
+            path: 'routes/web/channels.php',
+        ));
     });
 });

@@ -7,4 +7,5 @@ namespace App\Enums\Identity;
 enum Provider: string
 {
     case GitHub = 'github';
+    case Google = 'google';
 }

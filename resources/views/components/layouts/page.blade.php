@@ -12,14 +12,13 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
 
     @vite(['resources/css/app.css','resources/js/app.js'])
-    <livewire:styles />
     @filamentStyles
     <style>[x-cloak] {display: none !important;}</style>
 </head>
 <body {!! $attributes->merge(['class' => 'font-sans antialiased h-screen text-slate-900 dark:text-slate-50']) !!}>
     {{ $slot }}
 
-    <livewire:scripts />
     @filamentScripts
+    @stack('scripts')
 </body>
 </html>

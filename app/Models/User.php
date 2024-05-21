@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -31,6 +32,8 @@ use Illuminate\Notifications\Notifiable;
  * @property Workspace $workspace
  * @property Collection<Workspace> $workspaces
  * @property Collection<Membership> $memberships
+ * @property Collection<Channel> $channels
+ * @property Collection<Message> $messages
  */
 final class User extends Authenticatable
 {
@@ -74,6 +77,24 @@ final class User extends Authenticatable
     {
         return $this->hasMany(
             related: Membership::class,
+            foreignKey: 'user_id',
+        );
+    }
+
+    /** @return BelongsToMany<Channel> */
+    public function channels(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            related: Channel::class,
+            table: 'channel_user',
+        );
+    }
+
+    /** @return HasMany<Message> */
+    public function messages(): HasMany
+    {
+        return $this->hasMany(
+            related: Message::class,
             foreignKey: 'user_id',
         );
     }

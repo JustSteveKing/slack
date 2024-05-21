@@ -15,7 +15,8 @@ final readonly class CallbackController
 {
     public function __construct(
         private AuthManager $auth,
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request): RedirectResponse
     {

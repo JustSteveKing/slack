@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property string $id
@@ -26,6 +27,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property User $owner
  * @property Workspace $workspace
  * @property Collection<User> $users
+ * @property Collection<Message> $messages
  */
 final class Channel extends Model
 {
@@ -67,6 +69,20 @@ final class Channel extends Model
             related: User::class,
             table: 'channel_user',
         );
+    }
+
+    /** @return HasMany<Message> */
+    public function messages(): HasMany
+    {
+        return $this->hasMany(
+            related: Message::class,
+            foreignKey: 'channel_id',
+        );
+    }
+
+    public function public(): bool
+    {
+        return Visibility::Public === $this->visibility;
     }
 
     /** @return array<string,string|class-string> */

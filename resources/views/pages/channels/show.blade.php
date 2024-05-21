@@ -1,0 +1,1 @@
+<x-layouts.app title="Home Page" :channel="$channel">    <livewire:channel.message-list        :channel="$channel"    /></x-layouts.app>
